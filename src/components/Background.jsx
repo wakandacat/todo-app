@@ -6,11 +6,11 @@ function Background() {
   const [randInterval, setRandInterval] = useState(Math.floor(Math.random() * 10) + 4);
 
   //create random static effect
-  useEffect(() => {
-    setInterval(() => {
-        setRandInterval(Math.floor(Math.random() * 10) + 4);
-    }, randInterval * 1000);
-  });
+  // useEffect(() => {
+  //   setInterval(() => {
+  //       setRandInterval(Math.floor(Math.random() * 10) + 4);
+  //   }, 1000);
+  // });
 
   return (
     <>

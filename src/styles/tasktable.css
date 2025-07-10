@@ -1,0 +1,19 @@
+table {
+    border-top: 2px solid white;
+    border-collapse: collapse;
+    margin-top: 2%;
+    width: 100%;
+}
+
+th {
+    text-align: start;
+}
+
+tr {
+    margin: 1%;
+}
+
+td {
+    border-top: 2px solid white;
+    border-collapse: collapse;
+}

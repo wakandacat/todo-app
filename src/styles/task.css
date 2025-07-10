@@ -1,0 +1,14 @@
+.task {
+  
+}
+
+.tableButton {
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+}
+
+.checked {
+    background-color: white;
+    color: rgb(2, 79, 117);
+}
