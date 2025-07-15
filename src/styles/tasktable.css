@@ -9,6 +9,10 @@ th {
     text-align: start;
 }
 
+th > p {
+    margin: 0% 2%;
+}
+
 tr {
     margin: 1%;
 }
