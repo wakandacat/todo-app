@@ -106,10 +106,6 @@ function TaskTable(){
                     ))}
                 </tbody>
             </table>
-
-            <div id="addTaskContainer">
-                <button >+</button>
-            </div>
         </>
     );
 }

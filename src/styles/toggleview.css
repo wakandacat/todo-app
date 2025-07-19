@@ -1,0 +1,11 @@
+
+#newTaskContainer > h2 {
+    display: inline;
+    padding-inline-end: 1%;
+    margin: 1% 0%;
+}
+
+#newTaskContainer {
+    display: flex;
+    align-items: baseline;
+}
