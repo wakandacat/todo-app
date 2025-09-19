@@ -11,6 +11,28 @@ function Task(props){
 
     function updateTask(){
 
+        let completedTime = null;
+
+        //if we are changing from incomplete to complete
+        if(!props.completed){
+
+            const now = new Date();
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            completedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            console.log("Completed time:", completedTime);           
+        }
+        else {
+            //if we are changing from complete to incomplete, set time_completed to null
+            completedTime = null;
+        }
+
         //send the data in a json format to the backend
         fetch("http://localhost/todo-backend/update_task.php", {
             method: "POST",
@@ -22,7 +44,7 @@ function Task(props){
                 task: props.text,
                 type: props.type,
                 completed: props.completed ? 0 : 1,
-                time_created: props.time_created
+                time_completed: completedTime
             })
         })
         .then(response => response.text())
@@ -34,7 +56,8 @@ function Task(props){
                 text: data.task,
                 completed: parseInt(data.completed),
                 type: data.type,
-                time_created: data.time_created
+                time_created: data.time_created,
+                time_completed: data.time_completed
             };
 
             //update the global tasks with the changed values
@@ -80,7 +103,6 @@ function Task(props){
 
     }
     
-
     //tasks that are completed should be Archived at midnight and disappear from the table
     //if the task is daily than create a new task with the same content
     //if task is not completed than leave it be
@@ -90,6 +112,7 @@ function Task(props){
             {props.completed ? (<td><button onClick={() => updateTask()} className="tableButton checked"><p>&#10003;</p></button></td>) : (<td><button onClick={() => updateTask()} className="tableButton"><p></p></button></td>)}
             <td><h3>{props.taskId}&emsp;{props.text}</h3></td>
             <td><h3>{props.time_created}</h3></td>
+            {props.time_completed === null ? (<td><h3>---</h3></td>) : (<td><h3>{props.time_completed}</h3></td>)}
             <td><h3>{props.type}</h3></td>
             <td><button className="tableButton" onClick={() => editTask()}>&#8593;</button></td> 
             <td><button className="tableButton" onClick={() => deleteTask()}>X</button></td>

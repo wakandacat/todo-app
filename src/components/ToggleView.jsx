@@ -4,6 +4,8 @@ import '../styles/toggleview.css';
 
 function ToggleView(){
 
+    ///REVAMP THIS TO HAVE 3 VALUES (check globalprovider too) - viewTasks, modifyTasks, viewArchived
+
     const {view, setView} = useContext(GlobalContext);
 
     function toggleView() {
@@ -18,15 +20,14 @@ function ToggleView(){
         <div id="newTaskContainer">       
         {view === "viewTasks" ? 
             (<>
-                <h2>NEW MISSION</h2>
-                <button className="tableButton" onClick={() => toggleView()}>+</button>
+                <button className="toggleButton" onClick={() => toggleView()}>NEW MISSION +</button>
             </>)
             : 
             (<>
-                <h2>CANCEL</h2>
-                <button className="tableButton" onClick={() => toggleView()}>&#8592;</button>
+                <button className="toggleButton" onClick={() => toggleView()}>CANCEL &#8592;</button>
             </>)
         }
+        <button className="toggleButton" onClick={() => toggleView()}>ARCHIVED</button>
 
         </div>
     );
