@@ -10,6 +10,7 @@ import ToggleView from './components/ToggleView.jsx';
 function App() {
 
   const {view, setView} = useContext(GlobalContext);
+  const {updatingTask, setUpdatingTask} = useContext(GlobalContext);
 
   return (
     <>
@@ -17,7 +18,7 @@ function App() {
       <div id='mainContent'>
         <Topbar />
         <ToggleView />
-        {view === "viewTasks" ? (<TaskTable />) : (<TaskForm />)}
+        {view === "viewTasks" ? (<TaskTable />) : (<TaskForm key={updatingTask.id} taskId={updatingTask.id} completed={updatingTask.completed} time_created={updatingTask.time_created} text={updatingTask.text} type={updatingTask.type}/>)}
       </div>
 
     </>

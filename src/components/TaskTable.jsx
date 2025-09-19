@@ -27,7 +27,8 @@ function TaskTable(){
                 id: parseInt(task.id), // convert id to integer
                 text: task.task,
                 completed: parseInt(task.completed),
-                type: task.type
+                type: task.type,
+                time_created: task.time_created
             }));
 
             setGlobalTasks(taskObjects);
@@ -90,11 +91,12 @@ function TaskTable(){
                             <p>{completefilter}</p>
                             <button onClick={() => completeFilterButton("right")}>&#8594;</button>
                         </th>
-                        <th style={{width: "65%"}}>
+                        <th style={{width: "45%"}}>
                             <button onClick={() => typeFilterButton("left")}>&#8592;</button> 
                             <p>{typefilter}</p>
                             <button onClick={() => typeFilterButton("right")}>&#8594;</button>
                         </th>
+                        <th style={{width: "20%"}}>Creation DateTime</th>
                         <th style={{width: "10%"}}></th>
                         <th style={{width: "5%"}}></th>
                         <th style={{width: "5%"}}></th>
@@ -102,7 +104,7 @@ function TaskTable(){
                 </thead>
                 <tbody>
                     {globalTasks.map((task) => (
-                        <Task key={task.id} taskId={task.id} completed={task.completed} text={task.text} type={task.type}/>
+                        <Task key={task.id} taskId={task.id} completed={task.completed} time_created={task.time_created} text={task.text} type={task.type}/>
                     ))}
                 </tbody>
             </table>

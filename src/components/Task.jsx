@@ -7,6 +7,7 @@ function Task(props){
     const {globalTasks, setGlobalTasks} = useContext(GlobalContext);
     const {refetchData, setRefetchData} = useContext(GlobalContext);
     const {view, setView} = useContext(GlobalContext);
+    const {updatingTask, setUpdatingTask} = useContext(GlobalContext);
 
     function updateTask(){
 
@@ -21,6 +22,7 @@ function Task(props){
                 task: props.text,
                 type: props.type,
                 completed: props.completed ? 0 : 1,
+                time_created: props.time_created
             })
         })
         .then(response => response.text())
@@ -31,7 +33,8 @@ function Task(props){
                 id: parseInt(data.id), // convert id to integer
                 text: data.task,
                 completed: parseInt(data.completed),
-                type: data.type
+                type: data.type,
+                time_created: data.time_created
             };
 
             //update the global tasks with the changed values
@@ -46,6 +49,12 @@ function Task(props){
     }
 
     //update button calls update_task.php with updated data
+    function editTask(){
+
+        setUpdatingTask({id: props.taskId, text: props.text, completed: props.completed, type: props.type, time_created: props.time_created});
+
+        setView("modifyTasks");
+    }
 
     //delete button calls delete_task.php with the id of the task to delete
     function deleteTask(){
@@ -71,6 +80,7 @@ function Task(props){
 
     }
     
+
     //tasks that are completed should be Archived at midnight and disappear from the table
     //if the task is daily than create a new task with the same content
     //if task is not completed than leave it be
@@ -79,8 +89,9 @@ function Task(props){
         <tr className="task">
             {props.completed ? (<td><button onClick={() => updateTask()} className="tableButton checked"><p>&#10003;</p></button></td>) : (<td><button onClick={() => updateTask()} className="tableButton"><p></p></button></td>)}
             <td><h3>{props.taskId}&emsp;{props.text}</h3></td>
+            <td><h3>{props.time_created}</h3></td>
             <td><h3>{props.type}</h3></td>
-            <td><button className="tableButton" onClick={() => {setView("modifyTasks")}}>&#8593;</button></td> 
+            <td><button className="tableButton" onClick={() => editTask()}>&#8593;</button></td> 
             <td><button className="tableButton" onClick={() => deleteTask()}>X</button></td>
         </tr>
     );
