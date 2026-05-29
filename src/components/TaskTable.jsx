@@ -19,7 +19,7 @@ function TaskTable(){
     //get the tasks from the database
     useEffect(() => {
 
-        fetch('http://localhost/todo-backend/get_tasks.php?type=' + typefilter + '&completed=' + completefilter) //add params to filter
+        fetch(`${import.meta.env.VITE_API_URL}/tasks?type=${typefilter}&completed=${completefilter}`) //add params to filter
         .then(response => response.json())
         .then(data => {
            //console.log(data);

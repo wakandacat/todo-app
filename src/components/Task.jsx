@@ -33,41 +33,32 @@ function Task(props){
             completedTime = null;
         }
 
-        //send the data in a json format to the backend
-        fetch("http://localhost/todo-backend/update_task.php", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/x-www-form-urlencoded" //form data so we can use POST
-            },
-            body: new URLSearchParams({
-                id: props.taskId,
+        fetch(`${import.meta.env.VITE_API_URL}/tasks/${props.taskId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 task: props.text,
                 type: props.type,
                 completed: props.completed ? 0 : 1,
                 time_completed: completedTime
             })
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-            //console.log("Raw PHP response:", data);
-           //console.log(data);
             const taskObjects = {
-                id: parseInt(data.id), // convert id to integer
+                id: data.id,
                 text: data.task,
-                completed: parseInt(data.completed),
+                completed: data.completed,
                 type: data.type,
                 time_created: data.time_created,
                 time_completed: data.time_completed
             };
 
-            //update the global tasks with the changed values
             setGlobalTasks(prevTasks =>
                 prevTasks.map(task => task.id === taskObjects.id ? taskObjects : task)
             );
 
-            //let the TaskTable know that it needs to refetch the data
             setRefetchData(prev => prev + 1);
-
         });
     }
 
@@ -82,23 +73,13 @@ function Task(props){
     //delete button calls delete_task.php with the id of the task to delete
     function deleteTask(){
 
-        //send the data in a json format to the backend
-        fetch("http://localhost/todo-backend/delete_task.php", {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/x-www-form-urlencoded" //form data so we can use POST
-            },
-            body: new URLSearchParams({
-                id: props.taskId, //only send the id of the task to delete
-            })
+        fetch(`${import.meta.env.VITE_API_URL}/tasks/${props.taskId}`, {
+            method: "DELETE"
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-           console.log(data);
-
-            //let the TaskTable know that it needs to refetch the data
+            console.log(data);
             setRefetchData(prev => prev + 1);
-
         });
 
     }

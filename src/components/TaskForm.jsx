@@ -16,55 +16,39 @@ function TaskForm(props){
         //we are updating, not adding a new task
         if(props.taskId){
 
-            //send the data in a json format to the backend
-            fetch("http://localhost/todo-backend/update_task.php", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/x-www-form-urlencoded" //form data so we can use POST
-                },
-                body: new URLSearchParams({
-                    id: props.taskId,
-                    task: taskText.toUpperCase(),
-                    type: taskType,
-                })
+            fetch(`${import.meta.env.VITE_API_URL}/tasks/${props.taskId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ task: taskText.toUpperCase(), type: taskType })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                //console.log("Raw PHP response:", data);
-            //console.log(data);
                 const taskObjects = {
-                    id: parseInt(data.id), // convert id to integer
+                    id: data.id,
                     text: data.task,
-                    completed: parseInt(data.completed),
+                    completed: data.completed,
                     type: data.type,
-                    time_created: data.time_created
+                    time_created: data.time_created,
+                    time_completed: data.time_completed
                 };
 
-                //update the global tasks with the changed values
                 setGlobalTasks(prevTasks =>
                     prevTasks.map(task => task.id === taskObjects.id ? taskObjects : task)
                 );
-
             });
         
         } else {
             //we are adding a new task
 
-            // Prepare the data to be sent
-            const formData = new FormData();
-            formData.append('text', taskText.toUpperCase());
-            formData.append('type', taskType); // Default type, can be changed as needed
-
-            // Send the POST request to add a new task
-            fetch('http://localhost/todo-backend/add_task.php', {
+            fetch(`${import.meta.env.VITE_API_URL}/tasks`, {
                 method: 'POST',
-                body: formData
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ task: taskText.toUpperCase(), type: taskType })
             })
             .then(response => response.json())
             .then(data => {
-
                 console.log('Task added:', data);
-                setTaskText(""); // Clear the input field after submission
+                setTaskText("");
             })
             .catch(error => console.error('Error adding task:', error));
 
