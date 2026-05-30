@@ -42,69 +42,44 @@ function TaskTable(){
     }, [typefilter, completefilter, refetchData]); // refetch when filters change or tasks changed (added, deleted, updated)
 
 
-    function typeFilterButton(direction){
-
-        const currentFilterIndex = filterOptions.indexOf(typefilter);
-
-        if(direction === "left"){
-            if(currentFilterIndex === 0){ //if we are at the first index, wrap around to the last one
-                setTypeFilter(filterOptions[filterOptions.length - 1]);
-            }
-            else {
-                setTypeFilter(filterOptions[currentFilterIndex - 1]);
-            }
-        } else {
-            if(currentFilterIndex === filterOptions.length - 1){ //if we are at the last index, wrap around
-                setTypeFilter(filterOptions[0]);
-            }
-            else {
-                setTypeFilter(filterOptions[currentFilterIndex + 1]);
-            }
-        }
-    }
-
-    function completeFilterButton(direction){
-
-        const currentFilterIndex = completedOptions.indexOf(completefilter);
-
-        if(direction === "left"){
-            if(currentFilterIndex === 0){ //if we are at the first index, wrap around to the last one
-                setCompleteFilter(completedOptions[completedOptions.length - 1]);
-            }
-            else {
-                setCompleteFilter(completedOptions[currentFilterIndex - 1]);
-            }
-        } else {
-            if(currentFilterIndex === completedOptions.length - 1){ //if we are at the last index, wrap around
-                setCompleteFilter(completedOptions[0]);
-            }
-            else {
-                setCompleteFilter(completedOptions[currentFilterIndex + 1]);
-            }
-        }
-    }
-
-    //REVAMP THIS TO NOT SHOW archived tasks in the main table, they have their own view
-
     return(<>
+            {/* Game-style filter bar: category tabs (top) + status tabs, then the active selection as a heading */}
+            <div id="filterBar">
+                <div className="filterGroup">
+                    {filterOptions.map((option) => (
+                        <button
+                            key={option}
+                            className={"filterTab" + (typefilter === option ? " activeFilter" : "")}
+                            onClick={() => setTypeFilter(option)}>
+                            {option}
+                        </button>
+                    ))}
+                </div>
+                <div className="filterGroup">
+                    {completedOptions.map((option) => (
+                        <button
+                            key={option}
+                            className={"filterTab" + (completefilter === option ? " activeFilter" : "")}
+                            onClick={() => setCompleteFilter(option)}>
+                            {option}
+                        </button>
+                    ))}
+                </div>
+                <h2 id="activeFilterLabel">
+                    {typefilter}{completefilter !== "All" ? ` // ${completefilter}` : ""}
+                </h2>
+            </div>
+
             <table id="taskTable">
                 <thead>
                     <tr>
-                        <th style={{width: "15%"}}>
-                            <button onClick={() => completeFilterButton("left")}>&#8592;</button> {/*remember to use arrow function syntax when onclicks have params otherwise it will call it immediately*/}
-                            <p>{completefilter}</p>
-                            <button onClick={() => completeFilterButton("right")}>&#8594;</button>
-                        </th>
-                        <th style={{width: "35%"}}>
-                            <button onClick={() => typeFilterButton("left")}>&#8592;</button> 
-                            <p>{typefilter}</p>
-                            <button onClick={() => typeFilterButton("right")}>&#8594;</button>
-                        </th>
-                        <th style={{width: "15%"}}>Creation DateTime</th>
-                        <th style={{width: "15%"}}>Completion DateTime</th>
+                        <th style={{width: "5%"}}>&#10003;</th>
+                        <th style={{width: "45%"}}>Mission Title</th>
+                        <th style={{width: "15%"}}>Created</th>
+                        <th style={{width: "15%"}}>Completed</th>
                         <th style={{width: "10%"}}>Type</th>
-                        <th style={{width: "5%"}}>Update</th>
-                        <th style={{width: "5%"}}>Delete</th>
+                        <th style={{width: "5%"}}>Edit</th>
+                        <th style={{width: "5%"}}>Del</th>
                     </tr>
                 </thead>
                 <tbody>

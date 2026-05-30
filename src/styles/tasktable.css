@@ -1,23 +1,72 @@
+/* ===== Game-style filter bar ===== */
+#filterBar {
+    margin-top: 1.5%;
+    padding-bottom: 8px;
+    border-bottom: 2px solid white;
+}
+
+.filterGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.filterTab {
+    width: auto;
+    height: auto;
+    padding: 4px 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background-color: transparent;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85em;
+}
+
+.filterTab:hover {
+    border-color: white;
+}
+
+/* selected tab: filled, MGSV cyan-on-white like the completion checkbox */
+.activeFilter {
+    background-color: white;
+    color: rgb(2, 79, 117);
+    border-color: white;
+    font-weight: bold;
+}
+
+#activeFilterLabel {
+    margin: 8px 0 0 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: rgb(120, 200, 230);
+}
+
+/* ===== Mission table (full width) ===== */
 table {
     border-top: 2px solid white;
     border-collapse: collapse;
-    margin-top: 2%;
+    margin-top: 1.5%;
     width: 100%;
 }
 
-th {
+thead th {
     text-align: start;
-}
-
-th > p {
-    margin: 0% 2%;
-}
-
-tr {
-    margin: 1%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 6px 4px;
 }
 
 td {
     border-top: 2px solid white;
     border-collapse: collapse;
+    padding: 6px 4px;
+}
+
+/* subtle highlight on hover, like a selectable mission row */
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.08);
 }
